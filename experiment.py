@@ -101,19 +101,17 @@ def metrics(truth, prediction):
     }
 
 
-def evaluate(epochs, seed):
+def fit_models(epochs, seed):
+    """Train the same deterministic models for the benchmark and local GUI."""
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     torch.use_deterministic_algorithms(True)
     train, train_y = dataset(True)
-    test, test_y = dataset(False)
-    if set(train).intersection(test):
-        raise RuntimeError("Train/test overlap")
     baseline = make_pipeline(TfidfVectorizer(ngram_range=(1, 2)),
                              LogisticRegression(solver="newton-cg", max_iter=500, random_state=seed))
     baseline.fit(train, train_y)
     vocab = vocabulary(train)
-    train_tensor, test_tensor = encode(train, vocab), encode(test, vocab)
+    train_tensor = encode(train, vocab)
     transformer = TinyTransformer(len(vocab) + 2)
     optimizer = torch.optim.AdamW(transformer.parameters(), lr=0.003)
     loss = nn.CrossEntropyLoss()
@@ -124,7 +122,16 @@ def evaluate(epochs, seed):
             optimizer.zero_grad()
             loss(transformer(train_tensor[idx]), train_targets[idx]).backward()
             optimizer.step()
-    transformer.eval()
+    return baseline, transformer.eval(), vocab
+
+
+def evaluate(epochs, seed):
+    baseline, transformer, vocab = fit_models(epochs, seed)
+    train, _ = dataset(True)
+    test, test_y = dataset(False)
+    if set(train).intersection(test):
+        raise RuntimeError("Train/test overlap")
+    test_tensor = encode(test, vocab)
     with torch.no_grad():
         transformer_pred = transformer(test_tensor).argmax(1).numpy()
     return {

@@ -1,12 +1,22 @@
 # Support Ticket Intent: TF-IDF vs. a Tiny Transformer
 
-## Verified run output
-
-![Held-out synthetic classification metrics and confusion matrices](run-output.png)
-
-This image was rendered from the checked-in measured JSON report. See the installation and run commands below to reproduce the experiment.
-
 Does a neural model beat a simple baseline when you only have a few hundred short labeled messages? This experiment compares two classifiers on the same synthetic English support-ticket task: account access, billing, delivery, refunds, and technical issues.
+
+## Try the GUI
+
+![Ticket Lab preview showing the classifiers disagree on a held-out refund example](gui-preview.jpg)
+
+Browser screenshot from a verified local Chromium run showing a real pair of predictions.
+
+After installing the dependencies below, run:
+
+```bash
+python app.py
+```
+
+Open **http://127.0.0.1:8012**. Enter a short made-up English ticket or select a built-in held-out example. Compare each model's ranked scores, see whether the models agree, and check how many tokens are unknown to the Transformer. Held-out benchmark metrics are displayed separately from scores on the entered ticket.
+
+The app trains both models from scratch at startup using the benchmark's seed and epoch count. It listens only on your computer, makes no external requests, and does not log or save ticket text. Do not enter real customer or personal data. Scores are not calibrated confidence, the model cannot reject unsupported intents, and the Transformer only reads the first 32 tokens.
 
 ## Reproduce the result
 
@@ -17,7 +27,7 @@ python -m venv .venv
 source .venv/bin/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python -m pip install torch==2.7.1 --index-url https://download.pytorch.org/whl/cpu
-python -m unittest -v
+python -m unittest -v  # includes local HTTP tests
 python experiment.py --seed 17 --epochs 12 --report report.json
 ```
 
