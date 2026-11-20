@@ -18,6 +18,12 @@ Open **http://127.0.0.1:8012**. Enter a short made-up English ticket or select a
 
 The app trains both models from scratch at startup using the benchmark's seed and epoch count. It listens only on your computer, makes no external requests, and does not log or save ticket text. Do not enter real customer or personal data. Scores are not calibrated confidence, the model cannot reject unsupported intents, and the Transformer only reads the first 32 tokens.
 
+## Verified benchmark output
+
+![Held-out synthetic classification metrics and confusion matrices](run-output.png)
+
+This image was rendered from the checked-in measured JSON report. The GUI screenshot above shows a single example rather than aggregate performance.
+
 ## Reproduce the result
 
 Tested on Linux x86-64, Python 3.12 with CPU-only PyTorch. No external dataset, API, or pretrained weights are needed.
