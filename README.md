@@ -1,5 +1,11 @@
 # Support Ticket Intent: TF-IDF vs. a Tiny Transformer
 
+## Verified run output
+
+![Held-out synthetic classification metrics and confusion matrices](run-output.png)
+
+This image was rendered from the checked-in measured JSON report. See the installation and run commands below to reproduce the experiment.
+
 Does a neural model beat a simple baseline when you only have a few hundred short labeled messages? This experiment compares two classifiers on the same synthetic English support-ticket task: account access, billing, delivery, refunds, and technical issues.
 
 ## Reproduce the result
