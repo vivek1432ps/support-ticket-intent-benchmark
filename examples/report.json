@@ -1,0 +1,102 @@
+{
+  "versions": {
+    "numpy": "2.5.5",
+    "scikit_learn": "1.6.1",
+    "pytorch": "2.7.1+cpu"
+  },
+  "design": "disjoint templates, entity names, and action phrases; shared task vocabulary",
+  "seed": 17,
+  "epochs": 12,
+  "labels": [
+    "account",
+    "billing",
+    "delivery",
+    "refund",
+    "technical"
+  ],
+  "train_count": 600,
+  "test_count": 120,
+  "transformer_parameters": 12229,
+  "tfidf_logistic_regression": {
+    "accuracy": 0.7333333333333333,
+    "macro_f1": 0.7229946524064171,
+    "confusion_matrix": [
+      [
+        24,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        8,
+        12,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        12,
+        12,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        24,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        20
+      ]
+    ]
+  },
+  "tiny_transformer": {
+    "accuracy": 0.4,
+    "macro_f1": 0.3536796536796537,
+    "confusion_matrix": [
+      [
+        12,
+        0,
+        12,
+        0,
+        0
+      ],
+      [
+        0,
+        8,
+        16,
+        0,
+        0
+      ],
+      [
+        4,
+        0,
+        20,
+        0,
+        0
+      ],
+      [
+        8,
+        4,
+        12,
+        0,
+        0
+      ],
+      [
+        8,
+        8,
+        0,
+        0,
+        8
+      ]
+    ]
+  }
+}
